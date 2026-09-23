@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initTimeSlotPicker();
     initBookingForm();
     initContactCharCounter();
+    initContactForm();
 });
 
 // ---------------------------------------------------------
@@ -277,4 +278,20 @@ function initContactCharCounter() {
 
     textarea.addEventListener('input', updateCount);
     updateCount();
+}
+
+// Contact form: show a frontend-only submission confirmation.
+function initContactForm() {
+    var form = document.querySelector('#contact form');
+    var status = document.getElementById('contact-status');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        form.reset();
+        status.textContent = 'Thanks for your message. We will get back to you soon.';
+    });
+
+    form.addEventListener('reset', function () {
+        status.textContent = '';
+    });
 }
