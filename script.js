@@ -40,6 +40,7 @@ function initServiceSelection() {
         link.addEventListener('click', function () {
             var serviceValue = link.dataset.service;
             serviceSelect.value = serviceValue;
+            serviceSelect.dispatchEvent(new Event('change'));
             announceSelection();
         });
     });
@@ -54,6 +55,7 @@ function initServiceSelection() {
 // ---------------------------------------------------------
 function initTimeSlotPicker() {
     var dateInput = document.getElementById('appointment-date');
+    var serviceSelect = document.getElementById('service-type');
     var slotList = document.getElementById('time-slot-list');
     var hiddenTimeInput = document.getElementById('appointment-time');
     var selectedTimeDisplay = document.getElementById('selected-time-display');
@@ -65,6 +67,34 @@ function initTimeSlotPicker() {
         '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
         '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'
     ];
+    var SERVICE_DURATIONS = {
+        bath: 30,
+        'full-groom': 90,
+        'nail-trim': 20
+    };
+
+    function getTodayString() {
+        var today = new Date();
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+        var day = String(today.getDate()).padStart(2, '0');
+        return today.getFullYear() + '-' + month + '-' + day;
+    }
+
+    function isAllowedDate(dateStr) {
+        return dateStr && dateStr >= dateInput.min;
+    }
+
+    function getAvailableSlotTimes(serviceValue) {
+        var duration = SERVICE_DURATIONS[serviceValue] || 30;
+        var closingTime = 17 * 60;
+        var bufferMinutes = 15;
+
+        return SLOT_TIMES.filter(function (time) {
+            var parts = time.split(':');
+            var startMinutes = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+            return startMinutes + duration + bufferMinutes <= closingTime;
+        });
+    }
 
     function formatTime12h(time24) {
         var parts = time24.split(':');
@@ -107,14 +137,16 @@ function initTimeSlotPicker() {
         clearSelection();
 
         var bookedSlots = getBookedSlotsForDate(dateStr);
+        var availableSlotTimes = getAvailableSlotTimes(serviceSelect.value);
 
-        SLOT_TIMES.forEach(function (time) {
+        availableSlotTimes.forEach(function (time) {
             var li = document.createElement('li');
             var button = document.createElement('button');
             button.type = 'button';
             button.className = 'slot-btn';
             button.textContent = formatTime12h(time);
             button.dataset.time = time;
+            button.setAttribute('aria-pressed', 'false');
 
             var isBooked = bookedSlots.indexOf(time) !== -1;
 
@@ -127,8 +159,10 @@ function initTimeSlotPicker() {
                     var allButtons = slotList.querySelectorAll('.slot-btn');
                     allButtons.forEach(function (b) {
                         b.classList.remove('slot-selected');
+                        b.setAttribute('aria-pressed', 'false');
                     });
                     button.classList.add('slot-selected');
+                    button.setAttribute('aria-pressed', 'true');
                     hiddenTimeInput.value = time;
                     selectedTimeDisplay.textContent = 'Selected time: ' + formatTime12h(time);
                     timeError.hidden = true;
@@ -144,6 +178,8 @@ function initTimeSlotPicker() {
         var value = dateInput.value;
 
         if (!value) {
+            slotList.innerHTML = '<li class="slot-placeholder">Select a date above to see open time slots.</li>';
+            clearSelection();
             return;
         }
 
@@ -152,15 +188,24 @@ function initTimeSlotPicker() {
         var chosenDate = new Date(value + 'T00:00:00');
 
         // Condition: reject dates in the past before generating slots.
-        if (chosenDate < today) {
+        if (!isAllowedDate(value) || chosenDate < today) {
             dateError.hidden = false;
+            dateInput.setAttribute('aria-invalid', 'true');
             slotList.innerHTML = '<li class="slot-placeholder">Please choose today or a later date to see open time slots.</li>';
             clearSelection();
             return;
         }
 
         dateError.hidden = true;
+        dateInput.removeAttribute('aria-invalid');
         renderSlots(value);
+    });
+
+    dateInput.min = getTodayString();
+    serviceSelect.addEventListener('change', function () {
+        if (isAllowedDate(dateInput.value)) {
+            renderSlots(dateInput.value);
+        }
     });
 }
 
@@ -178,6 +223,8 @@ function initBookingForm() {
     var slotList = document.getElementById('time-slot-list');
     var selectedTimeDisplay = document.getElementById('selected-time-display');
     var bookAnotherBtn = document.getElementById('book-another-btn');
+    var dateInput = document.getElementById('appointment-date');
+    var dateError = document.getElementById('date-error');
 
     function formatTime12h(time24) {
         if (!time24) return '';
@@ -198,6 +245,16 @@ function initBookingForm() {
         detailsList.appendChild(dd);
     }
 
+    function resetBookingState() {
+        slotList.innerHTML = '<li class="slot-placeholder">Select a date above to see open time slots.</li>';
+        selectedTimeDisplay.textContent = '';
+        document.getElementById('service-select-status').textContent = '';
+        petSizeError.hidden = true;
+        timeError.hidden = true;
+        dateError.hidden = true;
+        dateInput.removeAttribute('aria-invalid');
+    }
+
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -207,6 +264,18 @@ function initBookingForm() {
         if (!form.checkValidity()) {
             form.reportValidity();
             isValid = false;
+        }
+
+        var chosenDate = new Date(dateInput.value + 'T00:00:00');
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (!dateInput.value || dateInput.value < dateInput.min || chosenDate < today) {
+            dateError.hidden = false;
+            dateInput.setAttribute('aria-invalid', 'true');
+            isValid = false;
+        } else {
+            dateError.hidden = true;
+            dateInput.removeAttribute('aria-invalid');
         }
 
         // Custom condition: a radio group's required-ness isn't caught
@@ -253,14 +322,14 @@ function initBookingForm() {
 
     bookAnotherBtn.addEventListener('click', function () {
         form.reset();
+        resetBookingState();
         form.hidden = false;
         confirmationBox.hidden = true;
-        slotList.innerHTML = '<li class="slot-placeholder">Select a date above to see open time slots.</li>';
-        selectedTimeDisplay.textContent = '';
-        document.getElementById('service-select-status').textContent = '';
-        petSizeError.hidden = true;
-        timeError.hidden = true;
         form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    form.addEventListener('reset', function () {
+        resetBookingState();
     });
 }
 
@@ -277,6 +346,9 @@ function initContactCharCounter() {
     }
 
     textarea.addEventListener('input', updateCount);
+    textarea.form.addEventListener('reset', function () {
+        window.setTimeout(updateCount, 0);
+    });
     updateCount();
 }
 

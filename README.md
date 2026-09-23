@@ -25,10 +25,12 @@ This milestone covers the frontend-only stage of the project:
   responsive layout.
 - **JavaScript** (`script.js`) — interactive features:
   - Service selection sync between the Services section and the booking form
-  - A generated Time Slot List with simulated availability per date
+  - A generated Time Slot List with simulated availability per date, filtered
+    by service duration and the 15-minute sanitation buffer
   - Booking form validation (including custom checks for pet size and time
-    slot selection) and a dynamic confirmation summary
+    slot selection) and a dynamic request preview
   - A live character counter on the Contact form's message field
+  - Frontend-only contact form feedback after valid submission
 
 **Not yet implemented** (planned for later milestones): Google Calendar
 event creation, Google Sheet booking log, confirmation/reminder emails, and
@@ -78,3 +80,17 @@ Implementation decisions, priorities, and progress tracking for this
 project are documented in the team's **Browser-Based Application
 Development Workflow Worksheet** (Google Sheet), updated weekly alongside
 this repository.
+
+## Milestone 1 Review Status
+
+The current frontend demonstrates the required HTML structure, responsive CSS
+presentation, and JavaScript interactions for service selection, date and time
+slot selection, booking validation, request preview, contact feedback, and
+character counting. The interface clearly labels booking and contact feedback
+as frontend-only behavior until the backend is implemented.
+
+Before submission, the team should update the Browser-Based Application
+Development Workflow Worksheet with the final repository URL, Weeks 2–5
+progress, implemented interactions, dependencies, scope decisions, discussion
+notes, reflection, and team contributions. The worksheet is external to this
+repository and is not represented by a local file.

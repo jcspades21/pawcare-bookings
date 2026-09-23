@@ -179,6 +179,14 @@ table {
     margin-top: var(--spacing-sm);
 }
 
+.table-scroll {
+    overflow-x: auto;
+}
+
+.table-scroll table {
+    min-width: 480px;
+}
+
 th, td {
     text-align: left;
     padding: 0.6rem 0.75rem;
@@ -231,6 +239,7 @@ legend {
 
 .form-group input[type="text"],
 .form-group input[type="email"],
+.form-group input[type="tel"],
 .form-group input[type="date"],
 .form-group input[type="time"],
 .form-group select,

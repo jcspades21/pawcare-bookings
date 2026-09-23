@@ -34,11 +34,11 @@
                 PawCare Bookings is a browser-based application that allows pet owners
                 to <strong>schedule grooming appointments online</strong> without needing
                 to call or visit in person. Choose a service, pick an available time slot,
-                and receive an <em>email confirmation</em> instantly.
+                and review your appointment request before submitting it.
             </p>
 
             <div class="banner-frame">
-                <img src="images/grooming-banner.png" alt="Dog getting groomed at a pet salon">
+                <img src="images/grooming-banner.png" alt="PawCare Grooming promotional banner with paw prints and pet-themed icons">
             </div>
         </section>
 
@@ -55,7 +55,7 @@
             <div class="service-grid">
                 <article id="service-bath" class="service-card">
                     <h3>Basic Bath &amp; Dry</h3>
-                    <img src="images/bath-service.png" alt="Dog bath service">
+                    <img src="images/bath-service.png" alt="Basic Bath and Dry service graphic">
                     <p>
                         A refreshing shampoo, rinse, and blow-dry session.
                         Perfect for pets who just need a quick clean-up.
@@ -66,7 +66,7 @@
 
                 <article id="service-full-groom" class="service-card">
                     <h3>Full Groom Package</h3>
-                    <img src="images/full-groom-service.png" alt="Full pet grooming package">
+                    <img src="images/full-groom-service.png" alt="Full Groom Package service graphic">
                     <p>
                         Includes bath, haircut, nail trimming, ear cleaning,
                         and a finishing spray. Great for regular maintenance.
@@ -77,7 +77,7 @@
 
                 <article id="service-nail-trim" class="service-card">
                     <h3>Nail Trim &amp; Ear Cleaning</h3>
-                    <img src="images/nail-trim-service.png" alt="Pet nail trimming service">
+                    <img src="images/nail-trim-service.png" alt="Nail Trim and Ear Cleaning service graphic">
                     <p>
                         A quick service focused on nail care and ear hygiene,
                         ideal for pets who don't need a full groom yet.
@@ -88,32 +88,34 @@
             </div>
 
             <h3>Quick Service Summary</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Duration</th>
-                        <th>Price (PHP)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Basic Bath &amp; Dry</td>
-                        <td>30 mins</td>
-                        <td>350</td>
-                    </tr>
-                    <tr>
-                        <td>Full Groom Package</td>
-                        <td>90 mins</td>
-                        <td>850</td>
-                    </tr>
-                    <tr>
-                        <td>Nail Trim &amp; Ear Cleaning</td>
-                        <td>20 mins</td>
-                        <td>200</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Duration</th>
+                            <th>Price (PHP)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic Bath &amp; Dry</td>
+                            <td>30 mins</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>Full Groom Package</td>
+                            <td>90 mins</td>
+                            <td>850</td>
+                        </tr>
+                        <tr>
+                            <td>Nail Trim &amp; Ear Cleaning</td>
+                            <td>20 mins</td>
+                            <td>200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <p><em>Note: Services shown here are placeholder content. In a later milestone this section will load dynamically from the "Services" Google Sheet, so the shop owner can add, edit, or hide services without touching code.</em></p>
         </section>
 
@@ -129,14 +131,14 @@
                 <li>Select the grooming service your pet needs.</li>
                 <li>Choose an available date and time.</li>
                 <li>Fill out your contact and pet details.</li>
-                <li>Receive a confirmation email with your appointment details.</li>
-                <li>Get a reminder email one day before your visit.</li>
+                <li>Review your appointment request details.</li>
+                <li>Receive confirmation and reminders after the backend is connected.</li>
             </ol>
 
             <h3>Why Pet Owners Choose Us</h3>
             <ul>
                 <li>Easy online scheduling, no phone calls needed</li>
-                <li>Automatic email confirmations and reminders</li>
+                <li>Clear appointment details before submission</li>
                 <li>Clear pricing with no hidden fees</li>
                 <li>Wide range of grooming packages</li>
             </ul>
@@ -187,7 +189,7 @@
                         <input type="text" id="pet-breed" name="pet-breed" placeholder="Aspin, Poodle, etc.">
                     </div>
 
-                    <fieldset>
+                    <fieldset aria-describedby="pet-size-error">
                         <legend>Pet Size</legend>
 
                         <div class="radio-group">
@@ -213,7 +215,7 @@
 
                     <div class="form-group">
                         <label for="appointment-date">Preferred Date:</label>
-                        <input type="date" id="appointment-date" name="appointment-date" required>
+                        <input type="date" id="appointment-date" name="appointment-date" aria-describedby="date-error" required>
                         <small id="date-error" class="field-error" hidden>Please choose today or a later date.</small>
                     </div>
 
@@ -222,7 +224,7 @@
                         <ul id="time-slot-list">
                             <li class="slot-placeholder">Select a date above to see open time slots.</li>
                         </ul>
-                        <input type="hidden" id="appointment-time" name="appointment-time">
+                        <input type="hidden" id="appointment-time" name="appointment-time" aria-describedby="time-error">
                         <p id="selected-time-display" class="status-message" aria-live="polite"></p>
                         <small id="time-error" class="field-error" hidden>Please select an open time slot.</small>
                         <!--
@@ -261,11 +263,10 @@
             <!-- BOOKING CONFIRMATION MESSAGE  -->
             <!-- ============================= -->
             <div id="booking-confirmation" aria-live="polite" hidden>
-                <h3>Booking Confirmed!</h3>
+                <h3>Booking Request Preview</h3>
                 <p>
-                    Thanks, your appointment request has been received. Here's what
-                    we have on file — a confirmation email will follow once the
-                    backend is connected in a later milestone.
+                    This preview passed the browser's validation checks. No booking,
+                    calendar event, or email is created until the backend is connected.
                 </p>
                 <dl id="confirmation-details"></dl>
                 <button type="button" id="book-another-btn" class="btn btn-secondary">Book Another Appointment</button>
