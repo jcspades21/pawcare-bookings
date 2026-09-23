@@ -43,14 +43,34 @@ pawcare-bookings/
 ├── index.html      # Main page structure
 ├── style.css        # Styling and layout
 ├── script.js         # Interactive behavior
-├── images/            # Image assets (add banner/service photos here)
+├── images/            # Banner and service image assets
 └── README.md
 ```
 
+## Viewing the Website
+
+Visitors can open the deployed website at:
+
+**https://jcspades21.github.io/pawcare-bookings/**
+
+To enable or check GitHub Pages, open the repository's **Settings > Pages**
+menu and configure it to deploy from the `main` branch and the `/ (root)`
+folder. Leave the **Custom domain** field empty unless you own a separate
+domain name. The GitHub Pages URL above is a project URL, not a custom domain.
+
 ## Running Locally
 
-No build step or server required. Clone the repo and open `index.html`
-directly in a browser, or serve the folder with any static file server.
+No build step is required. Clone the repository, then serve the folder with a
+local static server:
+
+```bash
+git clone https://github.com/jcspades21/pawcare-bookings.git
+cd pawcare-bookings
+python3 -m http.server 8000
+```
+
+Open **http://localhost:8000** in a browser. Opening `index.html` directly
+also works, but a local server is more reliable for loading assets.
 
 ## Workflow Documentation
 
