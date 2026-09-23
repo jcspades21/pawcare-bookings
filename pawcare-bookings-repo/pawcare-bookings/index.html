@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawCare Bookings - Pet Grooming Made Easy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>PawCare Bookings</h1>
+        <p>Simple online booking for your pet's next grooming appointment.</p>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#book">Book Now</a>
+        <a href="#hours">Business Hours</a>
+        <a href="#contact">Contact Us</a>
+    </nav>
+
+    <main>
+
+        <!-- ============================= -->
+        <!-- HOME / INTRO SECTION          -->
+        <!-- ============================= -->
+        <section id="home">
+            <h2>Welcome to PawCare Bookings</h2>
+
+            <p>
+                PawCare Bookings is a browser-based application that allows pet owners
+                to <strong>schedule grooming appointments online</strong> without needing
+                to call or visit in person. Choose a service, pick an available time slot,
+                and receive an <em>email confirmation</em> instantly.
+            </p>
+
+            <img src="images/grooming-banner.png" alt="Dog getting groomed at a pet salon">
+        </section>
+
+        <hr>
+
+        <!-- ============================= -->
+        <!-- SERVICES SECTION              -->
+        <!-- ============================= -->
+        <section id="services">
+            <h2>Our Grooming Services</h2>
+
+            <p>Browse our available grooming packages below. Select a service to jump straight to the booking form.</p>
+
+            <div class="service-grid">
+                <article id="service-bath" class="service-card">
+                    <h3>Basic Bath &amp; Dry</h3>
+                    <img src="images/bath-service.png" alt="Dog bath service">
+                    <p>
+                        A refreshing shampoo, rinse, and blow-dry session.
+                        Perfect for pets who just need a quick clean-up.
+                    </p>
+                    <p class="service-price">30 minutes | PHP 350</p>
+                    <a href="#book" class="select-service-link" data-service="bath">Select This Service &rarr;</a>
+                </article>
+
+                <article id="service-full-groom" class="service-card">
+                    <h3>Full Groom Package</h3>
+                    <img src="images/full-groom-service.png" alt="Full pet grooming package">
+                    <p>
+                        Includes bath, haircut, nail trimming, ear cleaning,
+                        and a finishing spray. Great for regular maintenance.
+                    </p>
+                    <p class="service-price">90 minutes | PHP 850</p>
+                    <a href="#book" class="select-service-link" data-service="full-groom">Select This Service &rarr;</a>
+                </article>
+
+                <article id="service-nail-trim" class="service-card">
+                    <h3>Nail Trim &amp; Ear Cleaning</h3>
+                    <img src="images/nail-trim-service.png" alt="Pet nail trimming service">
+                    <p>
+                        A quick service focused on nail care and ear hygiene,
+                        ideal for pets who don't need a full groom yet.
+                    </p>
+                    <p class="service-price">20 minutes | PHP 200</p>
+                    <a href="#book" class="select-service-link" data-service="nail-trim">Select This Service &rarr;</a>
+                </article>
+            </div>
+
+            <h3>Quick Service Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Duration</th>
+                        <th>Price (PHP)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic Bath &amp; Dry</td>
+                        <td>30 mins</td>
+                        <td>350</td>
+                    </tr>
+                    <tr>
+                        <td>Full Groom Package</td>
+                        <td>90 mins</td>
+                        <td>850</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Trim &amp; Ear Cleaning</td>
+                        <td>20 mins</td>
+                        <td>200</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>Note: Services shown here are placeholder content. In a later milestone this section will load dynamically from the "Services" Google Sheet, so the shop owner can add, edit, or hide services without touching code.</em></p>
+        </section>
+
+        <hr>
+
+        <!-- ============================= -->
+        <!-- HOW IT WORKS SECTION          -->
+        <!-- ============================= -->
+        <section id="how-it-works">
+            <h2>How Booking Works</h2>
+
+            <ol>
+                <li>Select the grooming service your pet needs.</li>
+                <li>Choose an available date and time.</li>
+                <li>Fill out your contact and pet details.</li>
+                <li>Receive a confirmation email with your appointment details.</li>
+                <li>Get a reminder email one day before your visit.</li>
+            </ol>
+
+            <h3>Why Pet Owners Choose Us</h3>
+            <ul>
+                <li>Easy online scheduling, no phone calls needed</li>
+                <li>Automatic email confirmations and reminders</li>
+                <li>Clear pricing with no hidden fees</li>
+                <li>Wide range of grooming packages</li>
+            </ul>
+        </section>
+
+        <hr>
+
+        <!-- ============================= -->
+        <!-- BOOKING FORM SECTION          -->
+        <!-- ============================= -->
+        <section id="book">
+            <h2>Book an Appointment</h2>
+
+            <p id="service-select-status" class="status-message" aria-live="polite"></p>
+
+            <form action="">
+
+                <fieldset>
+                    <legend>Owner Information</legend>
+
+                    <div class="form-group">
+                        <label for="owner-name">Full Name:</label>
+                        <input type="text" id="owner-name" name="owner-name" placeholder="Juan Dela Cruz" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="owner-email">Email Address:</label>
+                        <input type="email" id="owner-email" name="owner-email" placeholder="juan@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="owner-phone">Phone Number:</label>
+                        <input type="text" id="owner-phone" name="owner-phone" placeholder="09XX-XXX-XXXX" required>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Pet Information</legend>
+
+                    <div class="form-group">
+                        <label for="pet-name">Pet Name:</label>
+                        <input type="text" id="pet-name" name="pet-name" placeholder="Bantay" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet-breed">Breed:</label>
+                        <input type="text" id="pet-breed" name="pet-breed" placeholder="Aspin, Poodle, etc.">
+                    </div>
+
+                    <fieldset>
+                        <legend>Pet Size</legend>
+
+                        <div class="radio-group">
+                            <label for="size-small"><input type="radio" id="size-small" name="pet-size" value="small"> Small</label>
+                            <label for="size-medium"><input type="radio" id="size-medium" name="pet-size" value="medium"> Medium</label>
+                            <label for="size-large"><input type="radio" id="size-large" name="pet-size" value="large"> Large</label>
+                        </div>
+                        <small id="pet-size-error" class="field-error" hidden>Please select your pet's size.</small>
+                    </fieldset>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Appointment Details</legend>
+
+                    <div class="form-group">
+                        <label for="service-type">Select a Service:</label>
+                        <select id="service-type" name="service-type" required>
+                            <option value="bath">Basic Bath &amp; Dry</option>
+                            <option value="full-groom">Full Groom Package</option>
+                            <option value="nail-trim">Nail Trim &amp; Ear Cleaning</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointment-date">Preferred Date:</label>
+                        <input type="date" id="appointment-date" name="appointment-date" required>
+                        <small id="date-error" class="field-error" hidden>Please choose today or a later date.</small>
+                    </div>
+
+                    <div id="slot-picker">
+                        <p>Available Time Slots for the selected date:</p>
+                        <ul id="time-slot-list">
+                            <li class="slot-placeholder">Select a date above to see open time slots.</li>
+                        </ul>
+                        <input type="hidden" id="appointment-time" name="appointment-time">
+                        <p id="selected-time-display" class="status-message" aria-live="polite"></p>
+                        <small id="time-error" class="field-error" hidden>Please select an open time slot.</small>
+                        <!--
+                            NOTE FOR LATER MILESTONE:
+                            The slot list below is currently generated in the browser by
+                            script.js to demonstrate the interaction. Once the Apps Script
+                            backend exists, the same list will instead be populated from a
+                            real read of the shop Calendar (9AM-5PM, minus existing events
+                            and a 15-minute buffer) rather than the simulated data used here.
+                        -->
+                    </div>
+
+                    <p>Add-on Services:</p>
+                    <div class="checkbox-group">
+                        <label for="addon-perfume"><input type="checkbox" id="addon-perfume" name="addon-perfume"> Pet Cologne</label>
+                        <label for="addon-teeth"><input type="checkbox" id="addon-teeth" name="addon-teeth"> Teeth Brushing</label>
+                        <label for="addon-deshed"><input type="checkbox" id="addon-deshed" name="addon-deshed"> De-shedding Treatment</label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Additional Notes</legend>
+
+                    <div class="form-group">
+                        <label for="pet-notes">Special Instructions or Allergies:</label>
+                        <textarea id="pet-notes" name="pet-notes" rows="4" cols="40" placeholder="e.g. Pet is nervous around water"></textarea>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                <button type="reset" class="btn btn-secondary">Clear Form</button>
+
+            </form>
+
+            <!-- ============================= -->
+            <!-- BOOKING CONFIRMATION MESSAGE  -->
+            <!-- ============================= -->
+            <div id="booking-confirmation" aria-live="polite" hidden>
+                <h3>Booking Confirmed!</h3>
+                <p>
+                    Thanks, your appointment request has been received. Here's what
+                    we have on file — a confirmation email will follow once the
+                    backend is connected in a later milestone.
+                </p>
+                <dl id="confirmation-details"></dl>
+                <button type="button" id="book-another-btn" class="btn btn-secondary">Book Another Appointment</button>
+                <!--
+                    NOTE FOR LATER MILESTONE:
+                    script.js currently reveals this block and fills confirmation-details
+                    purely in the browser once the form passes validation. Once the Apps
+                    Script backend exists, this should only reveal after the Calendar
+                    event and Sheet row are actually created and the confirmation email
+                    is sent, rather than on client-side validation alone.
+                -->
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- ============================= -->
+        <!-- BUSINESS HOURS / ASIDE        -->
+        <!-- ============================= -->
+        <aside id="hours">
+            <h2>Business Hours</h2>
+
+            <p>We are open every day during the following hours:</p>
+
+            <ul>
+                <li>Monday - Friday: 9:00 AM - 5:00 PM</li>
+                <li>Saturday: 9:00 AM - 5:00 PM</li>
+                <li>Sunday: 9:00 AM - 5:00 PM</li>
+            </ul>
+
+            <p>Appointments include a 15-minute buffer between bookings for sanitation and setup.</p>
+        </aside>
+
+        <hr>
+
+        <!-- ============================= -->
+        <!-- CONTACT / SUPPORT SECTION     -->
+        <!-- ============================= -->
+        <section id="contact">
+            <h2>Contact Us</h2>
+
+            <p>Have a question before booking? Send us a message below.</p>
+
+            <form action="">
+                <div class="form-group">
+                    <label for="contact-name">Full Name:</label>
+                    <input type="text" id="contact-name" name="contact-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-email">Email Address:</label>
+                    <input type="email" id="contact-email" name="contact-email" required>
+                </div>
+
+                <fieldset>
+                    <legend>Preferred Contact Method</legend>
+                    <div class="radio-group">
+                        <label for="contact-via-email"><input type="radio" id="contact-via-email" name="contact-method" value="email"> Email</label>
+                        <label for="contact-via-phone"><input type="radio" id="contact-via-phone" name="contact-method" value="phone"> Phone</label>
+                    </div>
+                </fieldset>
+
+                <div class="form-group">
+                    <label for="contact-message">Message:</label>
+                    <textarea id="contact-message" name="contact-message" rows="5" cols="40" maxlength="500" required></textarea>
+                    <small id="message-char-count" class="char-count">0 / 500 characters</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button>
+                <button type="reset" class="btn btn-secondary">Clear Form</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <nav id="footer-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#book">Book Now</a>
+            <a href="#contact">Contact Us</a>
+            <a href="#home">Back to Top</a>
+        </nav>
+        <p>&copy; 2026 PawCare Bookings. All rights reserved.</p>
+        <p>Created as part of a browser-based application course project.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
